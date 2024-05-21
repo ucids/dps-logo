@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  php-35:
+    image: php:8.1.1-apache
+    volumes:
+      - "./php/:/var/www/html"
+      - "./php_conf/php.ini:/usr/local/etc/php/php.ini"
+      # - "/etc/localtime:/etc/localtime:ro"
+      # - "/etc/timezone:/etc/timezone:ro"
+    ports:
+      - 4000:80
+    networks:
+      - katzkin-net
+    command: >
+      sh -c "docker-php-ext-install pdo pdo_mysql mysqli && apache2-foreground"
+    restart: unless-stopped
+
+networks:
+  katzkin-net:
+    external: true
